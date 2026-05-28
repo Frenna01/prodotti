@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DryBetter — Contatti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terra: #8B5E3C;
+    --terra-light: #C4956A;
+    --terra-dark: #5C3D22;
+    --verde: #4A6741;
+    --verde-light: #7A9E74;
+    --verde-pale: #EDF2EC;
+    --crema: #FAF5ED;
+    --crema-dark: #F0E8D8;
+    --marrone: #3D2B1F;
+    --gold: #C9A84C;
+    --text: #2C1F14;
+    --text-light: #7A6558;
+    --white: #FEFCF8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; overflow-x:hidden; }
+  body { font-family:'Lato',sans-serif; background:var(--crema); color:var(--text); overflow-x:hidden; }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:1.2rem 4rem;
+    display:flex; justify-content:space-between; align-items:center;
+    background:rgba(250,245,237,0.95); backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(139,94,60,0.15);
+    box-shadow:0 4px 20px rgba(92,61,34,0.08);
+  }
+  .nav-logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--terra-dark); text-decoration:none; }
+  .nav-logo span { color:var(--verde); }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a { font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-light); text-decoration:none; font-weight:700; transition:color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color:var(--terra); }
+  .nav-cta { background:var(--terra); color:var(--white) !important; padding:0.6rem 1.4rem; border-radius:2px; }
+  .nav-cta:hover { background:var(--terra-dark) !important; }
+
+  .fade-up { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+  .fade-up.visible { opacity:1; transform:translateY(0); }
+
+  /* HERO */
+  .page-hero {
+    padding:140px 5rem 100px;
+    background:linear-gradient(150deg, var(--terra-dark) 0%, var(--marrone) 60%, #1a0f08 100%);
+    position:relative; overflow:hidden;
+  }
+  .page-hero::before {
+    content:'Ciao';
+    font-family:'Playfair Display',serif;
+    font-size:18rem; font-weight:700; font-style:italic;
+    position:absolute; right:-3rem; top:50%; transform:translateY(-50%);
+    color:rgba(255,255,255,0.04); line-height:1; pointer-events:none;
+  }
+  .page-hero-inner { max-width:1200px; margin:0 auto; position:relative; z-index:1; }
+  .breadcrumb { display:flex; gap:0.5rem; align-items:center; margin-bottom:1.5rem; }
+  .breadcrumb a { font-size:0.8rem; color:rgba(255,255,255,0.5); text-decoration:none; letter-spacing:0.1em; text-transform:uppercase; }
+  .breadcrumb a:hover { color:var(--gold); }
+  .breadcrumb span { color:rgba(255,255,255,0.25); font-size:0.8rem; }
+  .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,5vw,4.5rem); color:var(--white); line-height:1.1; margin-bottom:1rem; }
+  .page-hero h1 em { color:var(--gold); font-style:italic; }
+  .page-hero p { font-size:1.1rem; color:rgba(255,255,255,0.65); font-weight:300; max-width:580px; line-height:1.8; }
+
+  /* CONTACT CARDS */
+  .contact-cards-section { padding:0 5rem; margin-top:-40px; position:relative; z-index:10; }
+  .contact-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; max-width:1200px; margin:0 auto; }
+  .contact-card {
+    background:var(--white); border-radius:4px; padding:2.5rem;
+    border:1px solid rgba(139,94,60,0.08);
+    box-shadow:0 20px 50px rgba(92,61,34,0.12);
+    text-align:center; text-decoration:none; color:inherit;
+    transition:all 0.3s; display:block;
+  }
+  .contact-card:hover { transform:translateY(-6px); box-shadow:0 28px 60px rgba(92,61,34,0.18); }
+  .contact-card-icon { font-size:2.5rem; margin-bottom:1.2rem; display:block; }
+  .contact-card h3 { font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--marrone); margin-bottom:0.5rem; }
+  .contact-card p { color:var(--text-light); font-size:0.88rem; line-height:1.7; font-weight:300; }
+  .contact-card .cc-detail { margin-top:1rem; font-weight:700; color:var(--terra); font-size:0.9rem; }
+
+  /* MAIN CONTACT SECTION */
+  .main-contact { padding:7rem 5rem; background:var(--crema); }
+  .main-contact-inner { display:grid; grid-template-columns:1fr 1.3fr; gap:6rem; max-width:1200px; margin:0 auto; align-items:start; }
+
+  .contact-left {}
+  .section-tag { display:inline-flex; align-items:center; gap:0.6rem; font-size:0.75rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--verde); font-weight:700; margin-bottom:1rem; }
+  .section-tag::before { content:''; display:block; width:25px; height:1px; background:var(--verde); }
+  .contact-left h2 { font-family:'Playfair Display',serif; font-size:2.4rem; color:var(--marrone); line-height:1.2; margin-bottom:1.5rem; }
+  .contact-left h2 em { color:var(--terra); font-style:italic; }
+  .contact-left p { color:var(--text-light); font-size:0.95rem; line-height:1.8; font-weight:300; margin-bottom:2.5rem; }
+
+  .info-block { margin-bottom:2rem; padding-bottom:2rem; border-bottom:1px solid var(--crema-dark); }
+  .info-block:last-child { border-bottom:none; margin-bottom:0; }
+  .info-block-label { font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--verde); font-weight:700; margin-bottom:0.5rem; }
+  .info-block-val { font-size:1rem; color:var(--marrone); font-weight:700; margin-bottom:0.2rem; }
+  .info-block-sub { font-size:0.85rem; color:var(--text-light); font-weight:300; }
+
+  /* FORM */
+  .contact-form {
+    background:var(--white); border-radius:4px; padding:3rem;
+    border:1px solid rgba(139,94,60,0.08);
+    box-shadow:0 8px 32px rgba(92,61,34,0.07);
+  }
+  .contact-form h3 { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--marrone); margin-bottom:0.5rem; }
+  .contact-form > p { color:var(--text-light); font-size:0.88rem; font-weight:300; margin-bottom:2rem; line-height:1.6; }
+
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+  .form-group { margin-bottom:1.4rem; }
+  .form-group label { display:block; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; color:var(--text-light); margin-bottom:0.5rem; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width:100%; padding:0.85rem 1rem;
+    border:1.5px solid var(--crema-dark); border-radius:2px;
+    font-family:'Lato',sans-serif; font-size:0.9rem; color:var(--text);
+    background:var(--crema); outline:none;
+    transition:border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color:var(--terra); box-shadow:0 0 0 3px rgba(139,94,60,0.08); background:var(--white); }
+  .form-group textarea { min-height:130px; resize:vertical; }
+  .form-group select { cursor:pointer; }
+
+  .btn-primary { background:var(--terra); color:var(--white); padding:1.1rem 2rem; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; border:none; cursor:pointer; text-decoration:none; display:inline-block; border-radius:2px; transition:all 0.25s; font-family:'Lato',sans-serif; width:100%; text-align:center; }
+  .btn-primary:hover { background:var(--terra-dark); transform:translateY(-2px); box-shadow:0 8px 24px rgba(139,94,60,0.25); }
+
+  .form-note { text-align:center; font-size:0.78rem; color:var(--text-light); font-weight:300; margin-top:1rem; }
+
+  /* CAMPIONI SECTION */
+  .campioni-section { padding:6rem 5rem; background:var(--marrone); }
+  .campioni-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+  .campioni-tag { display:inline-flex; align-items:center; gap:0.6rem; font-size:0.75rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:1rem; }
+  .campioni-tag::before { content:''; display:block; width:25px; height:1px; background:var(--gold); }
+  .campioni-inner h2 { font-family:'Playfair Display',serif; font-size:2.4rem; color:var(--white); line-height:1.2; margin-bottom:1.2rem; }
+  .campioni-inner h2 em { color:var(--gold); font-style:italic; }
+  .campioni-inner p { color:rgba(255,255,255,0.6); font-size:0.95rem; font-weight:300; line-height:1.8; margin-bottom:0; }
+  .campioni-features { list-style:none; margin-top:2rem; }
+  .campioni-features li { color:rgba(255,255,255,0.75); font-size:0.9rem; line-height:2.3; font-weight:300; }
+  .campioni-features li::before { content:'✓ '; color:var(--gold); font-weight:700; }
+
+  .campioni-right {
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+    border-radius:4px; padding:3rem; text-align:center;
+  }
+  .campioni-icon { font-size:4rem; display:block; margin-bottom:1.5rem; }
+  .campioni-right h3 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--white); margin-bottom:0.8rem; }
+  .campioni-right p { color:rgba(255,255,255,0.5); font-size:0.88rem; font-weight:300; line-height:1.7; margin-bottom:2rem; }
+  .btn-gold { background:var(--gold); color:var(--marrone); padding:1.1rem 2rem; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; border:none; cursor:pointer; text-decoration:none; display:inline-block; border-radius:2px; transition:all 0.25s; font-family:'Lato',sans-serif; }
+  .btn-gold:hover { background:#e0bc55; transform:translateY(-2px); }
+
+  /* ZONA */
+  .zona-section { padding:6rem 5rem; background:var(--white); }
+  .zona-inner { max-width:1200px; margin:0 auto; }
+  .zona-header { text-align:center; margin-bottom:4rem; }
+  .zona-header .section-tag { justify-content:center; }
+  .zona-header .section-tag::after { content:''; display:block; width:25px; height:1px; background:var(--verde); }
+  .zona-title { font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--marrone); margin-bottom:0.8rem; }
+  .zona-title em { color:var(--terra); font-style:italic; }
+  .zona-sub { color:var(--text-light); font-size:0.95rem; font-weight:300; line-height:1.7; }
+
+  .zone-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2rem; }
+  .zone-card { padding:2rem 2.5rem; border-radius:4px; border:1px solid transparent; }
+  .zone-diretta { background:var(--verde-pale); border-color:rgba(74,103,65,0.2); }
+  .zone-corriere { background:#f5ebe0; border-color:rgba(139,94,60,0.12); }
+  .zone-card-top { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
+  .zone-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+  .dot-verde { background:var(--verde); }
+  .dot-terra { background:var(--terra); }
+  .zone-card h3 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--marrone); }
+  .zone-badge { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; padding:0.3rem 0.7rem; border-radius:20px; margin-left:auto; }
+  .badge-verde { background:var(--verde); color:var(--white); }
+  .badge-terra { background:var(--terra); color:var(--white); }
+  .zone-card p { color:var(--text-light); font-size:0.88rem; line-height:1.7; font-weight:300; }
+  .zone-list { list-style:none; margin-top:1rem; }
+  .zone-list li { color:var(--text-light); font-size:0.85rem; line-height:2; font-weight:400; }
+  .zone-list li::before { content:'→ '; color:var(--verde); }
+
+  footer { background:var(--marrone); padding:2.5rem 5rem; display:flex; justify-content:space-between; align-items:center; }
+  .footer-logo { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--white); }
+  .footer-logo span { color:var(--verde-light); }
+  footer p { font-size:0.8rem; color:rgba(255,255,255,0.35); }
+
+  /* SUCCESS */
+  .form-success { display:none; text-align:center; padding:2rem; background:var(--verde-pale); border-radius:4px; border:1px solid rgba(74,103,65,0.2); }
+  .form-success h4 { font-family:'Playfair Display',serif; color:var(--verde); font-size:1.3rem; margin-bottom:0.4rem; }
+  .form-success p { color:var(--verde); font-size:0.88rem; font-weight:300; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="drybetter.html" class="nav-logo">Dry<span>Better</span></a>
+  <ul class="nav-links">
+    <li><a href="drybetter.html">Home</a></li>
+    <li><a href="prodotti.html">Prodotti</a></li>
+    <li><a href="chi-siamo.html">Chi Siamo</a></li>
+    <li><a href="come-ordinare.html">Come Ordinare</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contatti.html" class="active nav-cta">Contatti</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="drybetter.html">Home</a>
+      <span>/</span>
+      <a href="#">Contatti</a>
+    </div>
+    <h1>Siamo <em>qui.</em><br>Scriveteci.</h1>
+    <p>Nessun form automatico, nessun bot. Risponde una persona reale entro 24 ore. Sempre.</p>
+  </div>
+</div>
+
+<!-- CONTACT CARDS -->
+<div class="contact-cards-section">
+  <div class="contact-cards">
+    <a href="mailto:info@drybetter.it" class="contact-card fade-up">
+      <span class="contact-card-icon">✉️</span>
+      <h3>Email</h3>
+      <p>Per richieste commerciali, catalogo e informazioni sui prodotti.</p>
+      <div class="cc-detail">info@drybetter.it</div>
+    </a>
+    <a href="tel:+39" class="contact-card fade-up">
+      <span class="contact-card-icon">📞</span>
+      <h3>Telefono</h3>
+      <p>Preferisci parlare direttamente? Chiamaci negli orari di ufficio.</p>
+      <div class="cc-detail">Lun–Ven  9:00–18:00</div>
+    </a>
+    <a href="https://wa.me/39" class="contact-card fade-up">
+      <span class="contact-card-icon">💬</span>
+      <h3>WhatsApp</h3>
+      <p>Per richieste veloci, conferme ordine o aggiornamenti consegna.</p>
+      <div class="cc-detail">Scrivi su WhatsApp →</div>
+    </a>
+  </div>
+</div>
+
+<!-- MAIN CONTACT -->
+<section class="main-contact">
+  <div class="main-contact-inner">
+    <div class="contact-left fade-up">
+      <div class="section-tag">Scrivici</div>
+      <h2>Ogni messaggio<br>merita <em>risposta.</em></h2>
+      <p>Che tu voglia il catalogo, informazioni su un prodotto specifico, o semplicemente fare due chiacchiere: scriviamo a tutte le email entro 24 ore lavorative.</p>
+
+      <div class="info-block">
+        <div class="info-block-label">Email Commerciale</div>
+        <div class="info-block-val">info@drybetter.it</div>
+        <div class="info-block-sub">Risposta garantita entro 24h lavorative</div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-label">Orari di Ufficio</div>
+        <div class="info-block-val">Lun – Ven, 9:00 – 18:00</div>
+        <div class="info-block-sub">Sabato su appuntamento per clienti attivi</div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-label">Zona Operativa</div>
+        <div class="info-block-val">Sud Italia (consegna diretta)</div>
+        <div class="info-block-sub">Corriere su tutta la penisola</div>
+      </div>
+      <div class="info-block">
+        <div class="info-block-label">Partita IVA</div>
+        <div class="info-block-val">IT 00000000000</div>
+        <div class="info-block-sub">DryBetter S.r.l.s.</div>
+      </div>
+    </div>
+
+    <div class="contact-form fade-up">
+      <h3>Invia un messaggio</h3>
+      <p>Compila il modulo con le tue informazioni e il tipo di richiesta. Ti risponderemo via email o telefono secondo la tua preferenza.</p>
+      <div id="contact-form-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome e Cognome *</label>
+            <input type="text" id="nome" placeholder="Mario Rossi">
+          </div>
+          <div class="form-group">
+            <label>Nome del Locale *</label>
+            <input type="text" id="locale" placeholder="Pizzeria da Mario">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="email" placeholder="mario@pizzeria.it">
+          </div>
+          <div class="form-group">
+            <label>Telefono</label>
+            <input type="tel" id="tel" placeholder="+39 333 000 0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tipo di Locale</label>
+          <select id="tipo">
+            <option value="">Seleziona...</option>
+            <option>Pizzeria</option>
+            <option>Ristorante</option>
+            <option>Wine Bar / Bistrot</option>
+            <option>Gastronomia / Deli</option>
+            <option>Hotel / Catering</option>
+            <option>Altro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Oggetto della richiesta</label>
+          <select id="oggetto">
+            <option value="">Seleziona...</option>
+            <option>Richiesta catalogo e listino B2B</option>
+            <option>Richiesta campioni gratuiti</option>
+            <option>Informazioni su prodotto specifico</option>
+            <option>Informazioni su consegne e zone</option>
+            <option>Ordine / Preventivo</option>
+            <option>Altro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Messaggio</label>
+          <textarea id="msg" placeholder="Raccontaci di cosa hai bisogno. Prodotti di interesse, quantità indicative, domande specifiche..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="submitForm()">Invia il Messaggio →</button>
+        <p class="form-note">Ti risponderemo via email entro il prossimo giorno lavorativo.</p>
+      </div>
+      <div class="form-success" id="form-success">
+        <h4>✓ Messaggio inviato!</h4>
+        <p>Grazie per averci scritto. Ti risponderemo entro 24 ore lavorative all'email che hai indicato.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPIONI -->
+<section class="campioni-section">
+  <div class="campioni-inner">
+    <div class="fade-up">
+      <div class="campioni-tag">Nessun impegno</div>
+      <h2>Prova prima<br>di <em>ordinare.</em></h2>
+      <p>Non chiediamo fiducia cieca. Mandiamo i prodotti, li assaggi con la tua brigata, e solo dopo decidi se hanno senso per il tuo menù.</p>
+      <ul class="campioni-features">
+        <li>Kit da 3–5 prodotti selezionati per te</li>
+        <li>Spedizione gratuita</li>
+        <li>Nessun obbligo d'acquisto</li>
+        <li>Schede tecniche incluse</li>
+        <li>Follow-up call opzionale con il nostro commerciale</li>
+      </ul>
+    </div>
+    <div class="campioni-right fade-up">
+      <span class="campioni-icon">🎁</span>
+      <h3>Richiedi il Kit Campioni</h3>
+      <p>Inserisci la tua email e il tipo di locale. Ti contattiamo entro 24h per definire il kit più adatto a te.</p>
+      <div style="text-align:left;margin-bottom:1.5rem;">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;display:block;">La tua email</label>
+          <input type="email" placeholder="mario@pizzeria.it" style="width:100%;padding:0.85rem 1rem;border:1.5px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'Lato',sans-serif;font-size:0.9rem;background:rgba(255,255,255,0.07);color:var(--white);outline:none;">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;display:block;">Tipo di locale</label>
+          <select style="width:100%;padding:0.85rem 1rem;border:1.5px solid rgba(255,255,255,0.12);border-radius:2px;font-family:'Lato',sans-serif;font-size:0.9rem;background:rgba(255,255,255,0.07);color:var(--white);outline:none;cursor:pointer;">
+            <option value="">Seleziona...</option>
+            <option>Pizzeria</option>
+            <option>Ristorante</option>
+            <option>Wine Bar / Bistrot</option>
+            <option>Gastronomia</option>
+            <option>Altro</option>
+          </select>
+        </div>
+      </div>
+      <a href="#" class="btn-gold" onclick="alert('Richiesta campioni inviata! Ti contatteremo presto.'); return false;" style="display:block;text-align:center;">Richiedi Campioni Gratuiti →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ZONE -->
+<section class="zona-section">
+  <div class="zona-inner">
+    <div class="zona-header fade-up">
+      <div class="section-tag">Zone di Servizio</div>
+      <h2 class="zona-title">Consegniamo in<br><em>tutta Italia.</em></h2>
+      <p class="zona-sub">Consegna diretta con nostro mezzo nelle regioni del Sud. Corriere espresso per il resto della penisola.</p>
+    </div>
+    <div class="zone-grid">
+      <div class="zone-card zone-diretta fade-up">
+        <div class="zone-card-top">
+          <div class="zone-dot dot-verde"></div>
+          <h3>Consegna Diretta</h3>
+          <span class="zone-badge badge-verde">Settimanale</span>
+        </div>
+        <p>Consegna con nostro mezzo, possibilità di ordini urgenti e contatto diretto con l'autista. La soluzione preferita dai nostri clienti più attivi.</p>
+        <ul class="zone-list">
+          <li>Campania</li>
+          <li>Calabria</li>
+          <li>Puglia</li>
+          <li>Basilicata</li>
+          <li>Sicilia (in espansione)</li>
+        </ul>
+      </div>
+      <div class="zone-card zone-corriere fade-up">
+        <div class="zone-card-top">
+          <div class="zone-dot dot-terra"></div>
+          <h3>Corriere Espresso</h3>
+          <span class="zone-badge badge-terra">2–3 gg</span>
+        </div>
+        <p>Spedizione con corriere tracciato in tutta Italia. Imballaggio termico per i prodotti che lo richiedono. Tracking in tempo reale.</p>
+        <ul class="zone-list">
+          <li>Nord Italia (Lombardia, Piemonte, Veneto...)</li>
+          <li>Centro Italia (Lazio, Toscana, Marche...)</li>
+          <li>Isole (Sardegna + 1 gg)</li>
+          <li>Gratis sopra 150€ di ordine</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-logo">Dry<span>Better</span></div>
+    <div style="font-size:0.8rem;opacity:0.4;margin-top:0.3rem;color:var(--white)">Ingredienti disidratati artigianali per professionisti</div>
+  </div>
+  <p>© 2026 DryBetter — Tutti i diritti riservati</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => {
+      if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*100);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  function submitForm() {
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    if(!nome || !email) { alert('Inserisci almeno nome ed email per procedere.'); return; }
+    document.getElementById('contact-form-body').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+</script>
+</body>
+</html>
